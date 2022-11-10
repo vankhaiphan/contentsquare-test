@@ -4,41 +4,41 @@ pipeline {
     stages {
         stage('Download') {
             steps {
-                echo 'Downloading...'
+                echo 'Downloading the application...'
             }
         }
 
         stage('Check') {
             steps {
-                echo 'Checking...'
+                echo 'Checking node version...'
                 sh 'node --version'
             }
         }
 
         stage('Setup') {
             steps {
-                echo 'Set up enviroment...'
+                echo 'Setup the application...'
                 sh 'npm install'
             }
         }
 
-        stage('Run') {
+        stage('Build') {
             steps {
-                echo 'Running...'
+                echo 'Building the application...'
                 sh 'npm start'
             }
         }
 
         stage('Test') {
             steps {
-                echo 'Testing..'
+                echo 'Testing the application...'
                 sh 'npm test'
             }
         }
 
         stage('Deploy') {
             steps {
-                echo 'Deploying....'
+                echo 'Deploying the application....'
             }
         }
     }
