@@ -1,3 +1,5 @@
+def groovy
+
 pipeline {
     agent { docker { image 'node:16.17.1-alpine' } }
 
@@ -7,30 +9,43 @@ pipeline {
     }
 
     stages {
+        stage("init") {
+            steps {
+                script {
+                   groovy = load "script.groovy" 
+                }
+            }
+        }
+
         stage('Download') {
             steps {
-                echo 'Downloading the application...'
+                script {
+                    groovy.downloadApp()
+                }
             }
         }
 
         stage('Check') {
             steps {
-                echo 'Checking node version...'
-                sh 'node --version'
+                script {
+                    groovy.checkEnv()
+                }
             }
         }
 
         stage('Setup') {
             steps {
-                echo 'Setup the application...'
-                sh 'npm install'
+                script {
+                    groovy.setupApp()
+                }
             }
         }
 
         stage('Build') {
             steps {
-                echo 'Building the application...'
-                sh 'npm start'
+                script {
+                    groovy.buildApp()
+                }
             }
         }
 
@@ -42,14 +57,17 @@ pipeline {
             }
 
             steps {
-                echo 'Testing the application...'
-                sh 'npm test'
+                script {
+                    groovy.testApp()
+                }
             }
         }
 
         stage('Deploy') {
             steps {
-                echo 'Deploying the application....'
+                script {
+                    groovy.deployApp()
+                }
             }
         }
     }
